@@ -2,6 +2,7 @@ package br.com.gamemods.spongebukkit.server;
 
 import br.com.gamemods.spongebukkit.entity.EntityMap;
 import br.com.gamemods.spongebukkit.mod.SpongeBukkitMod;
+import br.com.gamemods.spongebukkit.scheduler.SpongeBukkitScheduler;
 import com.avaje.ebean.config.ServerConfig;
 import com.google.common.base.Preconditions;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -34,6 +35,7 @@ public class BukkitServer implements Server
 {
     private final SpongeBukkitMod mod;
     private MinecraftServer server = MinecraftServer.getServer();
+    private SpongeBukkitScheduler scheduler = new SpongeBukkitScheduler();
 
     public BukkitServer(SpongeBukkitMod mod)
     {
@@ -258,7 +260,7 @@ public class BukkitServer implements Server
     @Override
     public BukkitScheduler getScheduler()
     {
-        throw new UnsupportedOperationException();
+        return scheduler;
     }
 
     @Override
