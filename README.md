@@ -14,6 +14,7 @@ Now, use maven to build the bukkit module:
 
     cd bukkit
     mvn clean install
+    cd ..
 
 
 Then use the provided Gradle runtime to compile:
