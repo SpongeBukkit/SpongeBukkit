@@ -13,9 +13,6 @@ import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by José Roberto on 11/09/2014.
- */
 public class BukkitPlayer extends BukkitHumanEntity implements Player
 {
 	@Override

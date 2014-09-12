@@ -5,9 +5,6 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Convert world types between implementations.
- */
 public class WorldMap
 {
 	private static Map<World, org.bukkit.World> worldMap = new HashMap<>(3);

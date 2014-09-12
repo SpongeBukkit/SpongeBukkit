@@ -7,9 +7,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 
-/**
- * Created by José Roberto on 11/09/2014.
- */
 public class BukkitChunk implements Chunk
 {
 	private net.minecraft.world.chunk.Chunk chunk;

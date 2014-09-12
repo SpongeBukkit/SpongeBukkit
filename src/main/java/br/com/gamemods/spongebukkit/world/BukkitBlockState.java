@@ -13,9 +13,6 @@ import org.bukkit.plugin.Plugin;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-/**
- * Created by José Roberto on 11/09/2014.
- */
 public class BukkitBlockState implements BlockState
 {
 	private final BukkitBlock block;

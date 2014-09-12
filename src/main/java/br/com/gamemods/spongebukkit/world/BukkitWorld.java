@@ -17,9 +17,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by José Roberto on 11/09/2014.
- */
 public class BukkitWorld implements World
 {
 	private net.minecraft.world.World world;

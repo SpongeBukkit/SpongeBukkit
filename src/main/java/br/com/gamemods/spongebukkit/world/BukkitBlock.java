@@ -14,9 +14,6 @@ import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by José Roberto on 11/09/2014.
- */
 public class BukkitBlock implements Block
 {
 	private final BukkitChunk chunk;

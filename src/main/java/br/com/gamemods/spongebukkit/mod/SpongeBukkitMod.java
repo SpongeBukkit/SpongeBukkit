@@ -7,10 +7,10 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import org.bukkit.Bukkit;
 
 /**
- * Created by José Roberto on 11/09/2014.
+ * The forge mod class, it will setup the bukkit environment and load bukkit plugins.
  */
 @Mod(modid = "SpongeBukkit")
-public class SpongeBukkit extends DummyModContainer
+public class SpongeBukkitMod extends DummyModContainer
 {
 	@Mod.EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)

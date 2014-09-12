@@ -28,9 +28,6 @@ import java.io.File;
 import java.util.*;
 import java.util.logging.Logger;
 
-/**
- * Created by José Roberto on 11/09/2014.
- */
 public class BukkitServer implements Server
 {
 	private MinecraftServer server = MinecraftServer.getServer();

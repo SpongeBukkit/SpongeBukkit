@@ -16,9 +16,6 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by José Roberto on 11/09/2014.
- */
 public class BukkitEntity<E extends net.minecraft.entity.Entity> implements Entity
 {
 	protected E entity;
