@@ -29,6 +29,15 @@ minecraft {
     assetDir = "eclipse/assets"
 }
 
+/*sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'bukkit/src/main/java']
+            exclude 'com/**'
+        }
+    }
+}*/
+
 repositories {
     mavenCentral()
     mavenLocal()
@@ -38,8 +47,14 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.bukkit', name: 'bukkit', version: '1.7.10-R0.1-SNAPSHOT'
-    compile 'org.spongepowered:sponge:1.7.10-10.13.1.1213-SNAPSHOT'
+    compile 'org.yaml:snakeyaml:1.9'
+    compile 'com.googlecode.json-simple:json-simple:1.1'
+    compile 'org.avaje:ebean:2.7.3'
+    compile 'com.google.guava:guava:10.0.1'
+    compile 'commons-lang:commons-lang:2.3'
+    compile files('bukkit/target/original-bukkit-1.7.10-R0.1-SNAPSHOT.jar')
+    //compile group: 'org.bukkit', name: 'bukkit', version: '1.7.10-R0.1-SNAPSHOT'
+    //compile 'org.spongepowered:sponge:1.7.10-10.13.1.1213-SNAPSHOT'
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"

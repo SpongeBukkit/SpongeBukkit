@@ -1,5 +1,6 @@
 package br.com.gamemods.spongebukkit.world;
 
+import com.google.common.base.Preconditions;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,7 +11,6 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class BukkitBlockState implements BlockState
@@ -19,9 +19,9 @@ public class BukkitBlockState implements BlockState
 	private MaterialData data;
 	private Material type;
 
-	public BukkitBlockState(@Nonnull BukkitBlock block)
+	public BukkitBlockState(BukkitBlock block)
 	{
-		this.block = block;
+		this.block = Preconditions.checkNotNull(block);
 		this.type = block.getType();
 	}
 

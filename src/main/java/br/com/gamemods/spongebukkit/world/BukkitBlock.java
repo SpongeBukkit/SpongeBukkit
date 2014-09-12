@@ -1,5 +1,6 @@
 package br.com.gamemods.spongebukkit.world;
 
+import com.google.common.base.Preconditions;
 import net.minecraft.world.EnumSkyBlock;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -10,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,9 +19,9 @@ public class BukkitBlock implements Block
 	private final BukkitChunk chunk;
 	private final int x, y, z;
 
-	public BukkitBlock(@Nonnull BukkitChunk location, int x, int y, int z)
+	public BukkitBlock(BukkitChunk chunk, int x, int y, int z)
 	{
-		this.chunk = location;
+		this.chunk = Preconditions.checkNotNull(chunk);
 		this.x = x; this.y = y; this.z = z;
 	}
 
