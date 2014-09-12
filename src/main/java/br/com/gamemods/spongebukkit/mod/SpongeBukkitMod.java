@@ -14,18 +14,18 @@ import org.bukkit.Bukkit;
 @Mod(modid = "SpongeBukkit")
 public class SpongeBukkitMod extends DummyModContainer
 {
-	private Logger logger;
+    private Logger logger;
 
-	@Mod.EventHandler
-	void onPreInit(FMLPreInitializationEvent event)
-	{
-		logger = event.getModLog();
-		Bukkit.setServer(new BukkitServer(this));
-		MinecraftForge.EVENT_BUS.register(new SpongeForgeListener(this));
-	}
+    @Mod.EventHandler
+    void onPreInit(FMLPreInitializationEvent event)
+    {
+        logger = event.getModLog();
+        Bukkit.setServer(new BukkitServer(this));
+        MinecraftForge.EVENT_BUS.register(new SpongeForgeListener(this));
+    }
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
+    public Logger getLogger()
+    {
+        return logger;
+    }
 }

@@ -11,13 +11,13 @@ import java.util.UUID;
  */
 public class EntityMap
 {
-	private static Map<Integer, Map<UUID, Entity>> bukkitEntities = new HashMap<>();
+    private static Map<Integer, Map<UUID, Entity>> bukkitEntities = new HashMap<>();
 
 
-	public static Entity getBukkitEntity(int dimension, UUID entityId)
-	{
-		Map<UUID, Entity> map = bukkitEntities.get(dimension);
-		if(map == null) return null;
-		return map.get(entityId);
-	}
+    public static Entity getBukkitEntity(int dimension, UUID entityId)
+    {
+        Map<UUID, Entity> map = bukkitEntities.get(dimension);
+        if(map == null) return null;
+        return map.get(entityId);
+    }
 }

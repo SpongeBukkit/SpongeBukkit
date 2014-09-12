@@ -7,10 +7,10 @@ import com.google.common.base.Preconditions;
  */
 public class SpongeForgeListener
 {
-	private final SpongeBukkitMod mod;
+    private final SpongeBukkitMod mod;
 
-	public SpongeForgeListener(SpongeBukkitMod mod)
-	{
-		this.mod = Preconditions.checkNotNull(mod);
-	}
+    public SpongeForgeListener(SpongeBukkitMod mod)
+    {
+        this.mod = Preconditions.checkNotNull(mod);
+    }
 }

@@ -4,17 +4,17 @@ import java.util.concurrent.Callable;
 
 public class CallableRunnable implements Callable<Void>
 {
-	private final Runnable runnable;
+    private final Runnable runnable;
 
-	public CallableRunnable(Runnable runnable)
-	{
-		this.runnable = runnable;
-	}
+    public CallableRunnable(Runnable runnable)
+    {
+        this.runnable = runnable;
+    }
 
-	@Override
-	public Void call() throws Exception
-	{
-		runnable.run();
-		return null;
-	}
+    @Override
+    public Void call() throws Exception
+    {
+        runnable.run();
+        return null;
+    }
 }
