@@ -1,6 +1,6 @@
 package br.com.gamemods.spongebukkit.mod;
 
-import br.com.gamemods.spongebukkit.BukkitServer;
+import br.com.gamemods.spongebukkit.server.BukkitServer;
 import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;

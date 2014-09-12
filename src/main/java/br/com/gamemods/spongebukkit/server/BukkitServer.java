@@ -1,4 +1,4 @@
-package br.com.gamemods.spongebukkit;
+package br.com.gamemods.spongebukkit.server;
 
 import br.com.gamemods.spongebukkit.entity.EntityMap;
 import com.avaje.ebean.config.ServerConfig;
