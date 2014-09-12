@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "SpongeBukkit",
+  "name": "SpongeBukkit",
+  "description": "Allows bukkit plugins to run with SpoungePowered.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["joserobjr"],
+  "credits": "The SpoungePowered and Bukkit teams, for creating that awesome tools",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
