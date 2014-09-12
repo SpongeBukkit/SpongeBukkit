@@ -1,7 +1,9 @@
 package br.com.gamemods.spongebukkit.server;
 
 import br.com.gamemods.spongebukkit.entity.EntityMap;
+import br.com.gamemods.spongebukkit.mod.SpongeBukkitMod;
 import com.avaje.ebean.config.ServerConfig;
+import com.google.common.base.Preconditions;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
@@ -30,12 +32,18 @@ import java.util.logging.Logger;
 
 public class BukkitServer implements Server
 {
+	private final SpongeBukkitMod mod;
 	private MinecraftServer server = MinecraftServer.getServer();
+
+	public BukkitServer(SpongeBukkitMod mod)
+	{
+		this.mod = Preconditions.checkNotNull(mod);
+	}
 
 	@Override
 	public String getName()
 	{
-		return "SpongeBukkit:"+server.getServerModName();
+		return "SpongeBukkit";
 	}
 
 	@Override
@@ -47,7 +55,7 @@ public class BukkitServer implements Server
 	@Override
 	public String getBukkitVersion()
 	{
-		return BukkitServer.class.getPackage().getSpecificationVersion();
+		return "1.7.10-R0.1-SNAPSHOT";
 	}
 
 	@Override
@@ -316,7 +324,7 @@ public class BukkitServer implements Server
 	@Override
 	public Logger getLogger()
 	{
-		throw new UnsupportedOperationException();
+		return Logger.getLogger("Minecraft");
 	}
 
 	@Override
