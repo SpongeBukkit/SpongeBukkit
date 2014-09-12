@@ -9,10 +9,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import org.bukkit.*;
-import org.bukkit.command.CommandException;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.PluginCommand;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.help.HelpMap;
@@ -21,6 +18,7 @@ import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
+import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -34,12 +32,16 @@ import java.util.logging.Logger;
 public class BukkitServer implements Server
 {
     private final SpongeBukkitMod mod;
-    private MinecraftServer server = MinecraftServer.getServer();
+    private final SimpleCommandMap commandMap = new SimpleCommandMap(this);
+    private final SimplePluginManager pluginManager = new SimplePluginManager(this,this.commandMap);
+    private final BukkitHelpMap helpMap = new BukkitHelpMap(this);
+    private final MinecraftServer server;
     private SpongeBukkitScheduler scheduler = new SpongeBukkitScheduler();
 
-    public BukkitServer(SpongeBukkitMod mod)
+    public BukkitServer(SpongeBukkitMod mod, MinecraftServer server)
     {
         this.mod = Preconditions.checkNotNull(mod);
+        this.server = Preconditions.checkNotNull(server);
     }
 
     @Override
@@ -254,7 +256,7 @@ public class BukkitServer implements Server
     @Override
     public PluginManager getPluginManager()
     {
-        throw new UnsupportedOperationException();
+        return pluginManager;
     }
 
     @Override
@@ -330,7 +332,7 @@ public class BukkitServer implements Server
     }
 
     @Override
-    public PluginCommand getPluginCommand(String s)
+    public PluginCommand getPluginCommand(String command)
     {
         throw new UnsupportedOperationException();
     }
@@ -534,7 +536,7 @@ public class BukkitServer implements Server
     @Override
     public HelpMap getHelpMap()
     {
-        throw new UnsupportedOperationException();
+        return helpMap;
     }
 
     @Override
