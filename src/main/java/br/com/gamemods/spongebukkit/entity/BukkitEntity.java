@@ -1,5 +1,6 @@
 package br.com.gamemods.spongebukkit.entity;
 
+import br.com.gamemods.spongebukkit.server.BukkitServer;
 import br.com.gamemods.spongebukkit.world.WorldMap;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
@@ -13,12 +14,15 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class BukkitEntity<E extends net.minecraft.entity.Entity> implements Entity
 {
+    protected BukkitServer server;
     protected E entity;
+    private EntityDamageEvent lastDamage;
 
     @Override
     public Location getLocation()
@@ -94,63 +98,70 @@ public class BukkitEntity<E extends net.minecraft.entity.Entity> implements Enti
     }
 
     @Override
-    public List<Entity> getNearbyEntities(double v, double v2, double v3)
+    public List<Entity> getNearbyEntities(double x, double y, double z)
     {
-        throw new UnsupportedOperationException();
+        List<net.minecraft.entity.Entity> entities = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(x, y, z));
+        List<Entity> bukkitEntities = new ArrayList<>(entities.size());
+        for(net.minecraft.entity.Entity entity: entities)
+            bukkitEntities.add(EntityMap.getBukkitEntity(entity.dimension, entity.getUniqueID()));
+
+        return bukkitEntities;
     }
 
     @Override
     public int getEntityId()
     {
-        throw new UnsupportedOperationException();
+        return entity.getEntityId();
     }
 
     @Override
     public int getFireTicks()
     {
-        throw new UnsupportedOperationException();
+        return entity.fire;
     }
 
     @Override
     public int getMaxFireTicks()
     {
-        throw new UnsupportedOperationException();
+        return entity.fireResistance;
     }
 
     @Override
-    public void setFireTicks(int i)
+    public void setFireTicks(int ticks)
     {
-        throw new UnsupportedOperationException();
+        entity.fire = ticks;
     }
 
     @Override
     public void remove()
     {
-        throw new UnsupportedOperationException();
+        entity.setDead();
     }
 
     @Override
     public boolean isDead()
     {
-        throw new UnsupportedOperationException();
+        return entity.isDead;
     }
 
     @Override
     public boolean isValid()
     {
-        throw new UnsupportedOperationException();
+        return !isDead();
     }
 
     @Override
     public Server getServer()
     {
-        throw new UnsupportedOperationException();
+        return server;
     }
 
     @Override
     public Entity getPassenger()
     {
-        throw new UnsupportedOperationException();
+        net.minecraft.entity.Entity passenger = entity.riddenByEntity;
+        if(passenger == null) return null;
+        return EntityMap.getBukkitEntity(passenger);
     }
 
     @Override
@@ -162,7 +173,7 @@ public class BukkitEntity<E extends net.minecraft.entity.Entity> implements Enti
     @Override
     public boolean isEmpty()
     {
-        throw new UnsupportedOperationException();
+        return entity.riddenByEntity == null;
     }
 
     @Override
@@ -174,49 +185,49 @@ public class BukkitEntity<E extends net.minecraft.entity.Entity> implements Enti
     @Override
     public float getFallDistance()
     {
-        throw new UnsupportedOperationException();
+        return entity.fallDistance;
     }
 
     @Override
     public void setFallDistance(float v)
     {
-        throw new UnsupportedOperationException();
+        entity.fallDistance = v;
     }
 
     @Override
     public void setLastDamageCause(EntityDamageEvent event)
     {
-        throw new UnsupportedOperationException();
+        lastDamage = event;
     }
 
     @Override
     public EntityDamageEvent getLastDamageCause()
     {
-        throw new UnsupportedOperationException();
+        return lastDamage;
     }
 
     @Override
     public UUID getUniqueId()
     {
-        throw new UnsupportedOperationException();
+        return entity.getUniqueID();
     }
 
     @Override
     public int getTicksLived()
     {
-        throw new UnsupportedOperationException();
+        return entity.ticksExisted;
     }
 
     @Override
     public void setTicksLived(int i)
     {
-        throw new UnsupportedOperationException();
+        entity.ticksExisted = i;
     }
 
     @Override
     public void playEffect(EntityEffect entityEffect)
     {
-        throw new UnsupportedOperationException();
+        entity.worldObj.setEntityState(entity, entityEffect.getData());
     }
 
     @Override
@@ -228,7 +239,7 @@ public class BukkitEntity<E extends net.minecraft.entity.Entity> implements Enti
     @Override
     public boolean isInsideVehicle()
     {
-        throw new UnsupportedOperationException();
+        return entity.ridingEntity != null;
     }
 
     @Override
@@ -240,7 +251,9 @@ public class BukkitEntity<E extends net.minecraft.entity.Entity> implements Enti
     @Override
     public Entity getVehicle()
     {
-        throw new UnsupportedOperationException();
+        net.minecraft.entity.Entity entity = this.entity.ridingEntity;
+        if(entity == null) return null;
+        return EntityMap.getBukkitEntity(entity);
     }
 
     @Override

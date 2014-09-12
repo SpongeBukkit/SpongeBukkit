@@ -20,4 +20,9 @@ public class EntityMap
         if(map == null) return null;
         return map.get(entityId);
     }
+
+    public static Entity getBukkitEntity(net.minecraft.entity.Entity passenger)
+    {
+        return getBukkitEntity(passenger.dimension, passenger.getUniqueID());
+    }
 }

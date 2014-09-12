@@ -71,6 +71,13 @@ dependencies {
 
 }
 
+jar {
+    manifest.mainAttributes(
+            "FMLAT": "SpongeBukkit_at.cfg",
+            "FMLCorePlugin": "br.com.gamemods.spongebukkit.mod.SpongeBukkitCoremod"
+    )
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.

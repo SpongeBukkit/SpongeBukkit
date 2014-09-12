@@ -1,5 +1,6 @@
 package br.com.gamemods.spongebukkit.entity;
 
+import net.minecraft.entity.EntityLivingBase;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -12,24 +13,26 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-public class BukkitLivingEntity extends BukkitEntity implements LivingEntity
+public class BukkitLivingEntity<E extends EntityLivingBase> extends BukkitEntity<E> implements LivingEntity
 {
     @Override
     public double getEyeHeight()
     {
-        throw new UnsupportedOperationException();
+        return entity.getEyeHeight();
     }
 
     @Override
-    public double getEyeHeight(boolean b)
+    public double getEyeHeight(boolean ignoreSneaking)
     {
-        throw new UnsupportedOperationException();
+        return entity.getEyeHeight();
     }
 
     @Override
     public Location getEyeLocation()
     {
-        throw new UnsupportedOperationException();
+        Location location = getLocation();
+        location.setY(location.getY() + getEyeHeight());
+        return location;
     }
 
     @Override
@@ -71,13 +74,13 @@ public class BukkitLivingEntity extends BukkitEntity implements LivingEntity
     @Override
     public int getRemainingAir()
     {
-        throw new UnsupportedOperationException();
+        return entity.getAir();
     }
 
     @Override
     public void setRemainingAir(int i)
     {
-        throw new UnsupportedOperationException();
+        entity.setAir(i);
     }
 
     @Override
@@ -95,49 +98,49 @@ public class BukkitLivingEntity extends BukkitEntity implements LivingEntity
     @Override
     public int getMaximumNoDamageTicks()
     {
-        throw new UnsupportedOperationException();
+        return entity.maxHurtResistantTime;
     }
 
     @Override
     public void setMaximumNoDamageTicks(int i)
     {
-        throw new UnsupportedOperationException();
+        entity.maxHurtResistantTime = i;
     }
 
     @Override
     public double getLastDamage()
     {
-        throw new UnsupportedOperationException();
+        return entity.lastDamage;
     }
 
     @Override
     public int _INVALID_getLastDamage()
     {
-        throw new UnsupportedOperationException();
+        return (int) getLastDamage();
     }
 
     @Override
     public void setLastDamage(double v)
     {
-        throw new UnsupportedOperationException();
+        entity.lastDamage = (float) v;
     }
 
     @Override
     public void _INVALID_setLastDamage(int i)
     {
-        throw new UnsupportedOperationException();
+        setLastDamage((double)i);
     }
 
     @Override
     public int getNoDamageTicks()
     {
-        throw new UnsupportedOperationException();
+        return entity.hurtResistantTime;
     }
 
     @Override
     public void setNoDamageTicks(int i)
     {
-        throw new UnsupportedOperationException();
+        entity.hurtResistantTime = i;
     }
 
     @Override

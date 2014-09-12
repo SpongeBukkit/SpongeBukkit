@@ -1,5 +1,6 @@
 package br.com.gamemods.spongebukkit.entity;
 
+import net.minecraft.entity.player.EntityPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.HumanEntity;
@@ -14,7 +15,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Set;
 
-public class BukkitHumanEntity extends BukkitLivingEntity implements HumanEntity
+public class BukkitHumanEntity<E extends EntityPlayer> extends BukkitLivingEntity<E> implements HumanEntity
 {
     @Override
     public String getName()
