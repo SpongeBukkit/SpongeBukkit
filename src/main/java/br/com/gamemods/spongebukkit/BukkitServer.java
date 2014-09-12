@@ -51,7 +51,7 @@ public class BukkitServer implements Server
 	}
 
 	@Override
-	public Player[] getOnlinePlayers()
+	public Player[] _INVALID_getOnlinePlayers()
 	{
 		List<EntityPlayerMP> list = server.getConfigurationManager().playerEntityList;
 		Player[] players = new Player[list.size()];
@@ -60,6 +60,12 @@ public class BukkitServer implements Server
 			players[i++] = (Player) EntityMap.getBukkitEntity(playerMP.worldObj.provider.dimensionId, playerMP.getUniqueID());
 
 		return players;
+	}
+
+	@Override
+	public Collection<? extends Player> getOnlinePlayers()
+	{
+		return Arrays.asList(_INVALID_getOnlinePlayers());
 	}
 
 	@Override
