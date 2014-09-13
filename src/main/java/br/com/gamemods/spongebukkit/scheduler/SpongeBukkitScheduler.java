@@ -118,6 +118,7 @@ public class SpongeBukkitScheduler implements BukkitScheduler
     public synchronized void cancelTasks(Plugin plugin)
     {
         Collection<SpongeBukkitTask<?>> tasks = this.pluginTasks.remove(plugin);
+        if(tasks == null) return;
         this.queue.removeAll(tasks);
         for(SpongeBukkitTask<?> task: tasks)
         {

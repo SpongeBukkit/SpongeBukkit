@@ -1,5 +1,7 @@
 package br.com.gamemods.spongebukkit.server;
 
+import br.com.gamemods.spongebukkit.command.BukkitCommandMap;
+import br.com.gamemods.spongebukkit.command.BukkitConsoleCommandSender;
 import br.com.gamemods.spongebukkit.entity.EntityMap;
 import br.com.gamemods.spongebukkit.mod.SpongeBukkitMod;
 import br.com.gamemods.spongebukkit.scheduler.SpongeBukkitScheduler;
@@ -15,12 +17,10 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.help.HelpMap;
 import org.bukkit.inventory.*;
 import org.bukkit.map.MapView;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.ServicesManager;
-import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.*;
 import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.plugin.messaging.Messenger;
+import org.bukkit.plugin.messaging.StandardMessenger;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.util.CachedServerIcon;
@@ -34,18 +34,23 @@ import java.util.logging.Logger;
 public class BukkitServer implements Server
 {
     private final SpongeBukkitMod mod;
-    private final SimpleCommandMap commandMap = new SimpleCommandMap(this);
-    private final SimplePluginManager pluginManager = new SimplePluginManager(this,this.commandMap);
+    private final SimpleCommandMap commandMap;
+    private final SimplePluginManager pluginManager;
+    private final SimpleServicesManager servicesManager = new SimpleServicesManager();
     private final BukkitHelpMap helpMap = new BukkitHelpMap(this);
     private final MinecraftServer server;
+    private final StandardMessenger messenger = new StandardMessenger();
     private SpongeBukkitScheduler scheduler = new SpongeBukkitScheduler();
     private long started = 0;
-    private File pluginDir;
+    private File pluginDir; // This will be configurable later, so do not convert into a local variable
+    private BukkitConsoleCommandSender consoleCommandSender;
 
     public BukkitServer(SpongeBukkitMod mod, MinecraftServer server)
     {
         this.mod = Preconditions.checkNotNull(mod);
         this.server = Preconditions.checkNotNull(server);
+        this.commandMap = new BukkitCommandMap(this);
+        this.pluginManager = new SimplePluginManager(this,this.commandMap);
         this.pluginManager.registerInterface(JavaPluginLoader.class);
     }
 
@@ -53,6 +58,8 @@ public class BukkitServer implements Server
     {
         if(started != 0)
             throw new IllegalStateException("Already started");
+
+        consoleCommandSender = new BukkitConsoleCommandSender(this);
         started = System.currentTimeMillis();
 
         loadPlugins();
@@ -299,7 +306,7 @@ public class BukkitServer implements Server
     @Override
     public ServicesManager getServicesManager()
     {
-        throw new UnsupportedOperationException();
+        return servicesManager;
     }
 
     @Override
@@ -365,7 +372,10 @@ public class BukkitServer implements Server
     @Override
     public PluginCommand getPluginCommand(String command)
     {
-        throw new UnsupportedOperationException();
+        Command cmd = commandMap.getCommand(command);
+        if(!(cmd instanceof PluginCommand))
+            return null;
+        return (PluginCommand) cmd;
     }
 
     @Override
@@ -461,6 +471,14 @@ public class BukkitServer implements Server
     @Override
     public void shutdown()
     {
+        getLogger().info("Bukkit implementation is shutting down...");
+
+        getLogger().info("Clearing plugins...");
+        pluginManager.clearPlugins();
+        getLogger().info("Removing commands...");
+        commandMap.clearCommands();
+
+        getLogger().info("Stopping the server...");
         server.initiateShutdown();
     }
 
@@ -543,7 +561,7 @@ public class BukkitServer implements Server
     @Override
     public ConsoleCommandSender getConsoleSender()
     {
-        throw new UnsupportedOperationException();
+        return consoleCommandSender;
     }
 
     @Override
@@ -561,7 +579,7 @@ public class BukkitServer implements Server
     @Override
     public Messenger getMessenger()
     {
-        throw new UnsupportedOperationException();
+        return messenger;
     }
 
     @Override
@@ -700,5 +718,10 @@ public class BukkitServer implements Server
     public Set<String> getListeningPluginChannels()
     {
         throw new UnsupportedOperationException();
+    }
+
+    public MinecraftServer getVanillaServer()
+    {
+        return server;
     }
 }
