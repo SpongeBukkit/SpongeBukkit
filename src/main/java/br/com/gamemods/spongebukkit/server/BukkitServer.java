@@ -19,6 +19,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -26,6 +27,7 @@ import org.bukkit.util.CachedServerIcon;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -37,11 +39,40 @@ public class BukkitServer implements Server
     private final BukkitHelpMap helpMap = new BukkitHelpMap(this);
     private final MinecraftServer server;
     private SpongeBukkitScheduler scheduler = new SpongeBukkitScheduler();
+    private long started = 0;
+    private File pluginDir;
 
     public BukkitServer(SpongeBukkitMod mod, MinecraftServer server)
     {
         this.mod = Preconditions.checkNotNull(mod);
         this.server = Preconditions.checkNotNull(server);
+        this.pluginManager.registerInterface(JavaPluginLoader.class);
+    }
+
+    public synchronized void start()
+    {
+        if(started != 0)
+            throw new IllegalStateException("Already started");
+        started = System.currentTimeMillis();
+
+        loadPlugins();
+    }
+
+    private void loadPlugins()
+    {
+        pluginDir = server.getFile("plugins");
+        if(!pluginDir.isDirectory())
+            if(!pluginDir.mkdirs() || !pluginDir.isDirectory())
+                throw new RuntimeException(new IOException("Failed to create the directory "+pluginDir.getAbsolutePath()));
+
+        getLogger().info("Loading plugins at "+pluginDir.getAbsolutePath());
+        Plugin[] plugins = pluginManager.loadPlugins(pluginDir);
+        getLogger().info("Loaded "+plugins.length+" plugins");
+        for(Plugin plugin: plugins)
+        {
+            getLogger().info("Enabling plugin "+plugin.getName()+"-"+plugin.getDescription().getVersion());
+            pluginManager.enablePlugin(plugin);
+        }
     }
 
     @Override
@@ -181,13 +212,13 @@ public class BukkitServer implements Server
     @Override
     public String getUpdateFolder()
     {
-        throw new UnsupportedOperationException();
+        return "update";
     }
 
     @Override
     public File getUpdateFolderFile()
     {
-        throw new UnsupportedOperationException();
+        return new File("update");
     }
 
     @Override

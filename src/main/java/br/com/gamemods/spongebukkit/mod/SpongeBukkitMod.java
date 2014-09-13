@@ -45,7 +45,9 @@ public class SpongeBukkitMod extends DummyModContainer
             throw new IllegalStateException("Bukkit.getServer is NOT a VolatileServer!",e);
         }
 
-        volatileServer.setCurrentServer(new BukkitServer(this, minecraftServer));
+        BukkitServer server = new BukkitServer(this, minecraftServer);
+        volatileServer.setCurrentServer(server);
+        server.start();
     }
 
     @Mod.EventHandler
