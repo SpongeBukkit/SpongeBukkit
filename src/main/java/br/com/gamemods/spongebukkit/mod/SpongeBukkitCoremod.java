@@ -1,5 +1,6 @@
 package br.com.gamemods.spongebukkit.mod;
 
+import cpw.mods.fml.relauncher.IFMLCallHook;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.bukkit.entity.Entity;
@@ -12,20 +13,23 @@ import org.objectweb.asm.tree.FieldNode;
 
 import java.util.Map;
 
-public class SpongeBukkitCoremod implements IFMLLoadingPlugin, IClassTransformer
+
+public class SpongeBukkitCoremod implements IFMLLoadingPlugin, IClassTransformer, IFMLCallHook
 {
     @Override
     public String[] getASMTransformerClass()
     {
+        System.out.println("*********** SpongeBukkitCoremod is being registered *********** ");
         return new String[]{
-                "net.minecraft.entity.Entity"
+                "br.com.gamemods.spongebukkit.mod.SpongeBukkitCoremod"
         };
     }
 
     @Override
     public String getModContainerClass()
     {
-        return "br.com.gamemods.spongebukkit.mod.SpongeBukkitMod";
+        //return "br.com.gamemods.spongebukkit.mod.SpongeBukkitMod";
+        return null;
     }
 
     @Override
@@ -37,7 +41,6 @@ public class SpongeBukkitCoremod implements IFMLLoadingPlugin, IClassTransformer
     @Override
     public void injectData(Map<String, Object> data)
     {
-
     }
 
     @Override
@@ -49,9 +52,10 @@ public class SpongeBukkitCoremod implements IFMLLoadingPlugin, IClassTransformer
     @Override
     public byte[] transform(String name, String transformedName, byte[] bytes)
     {
+        //System.out.println("*********** transform("+name+", "+transformedName+", "+bytes.length+" bytes) *********** ");
         if("net.minecraft.entity.Entity".equals(name))
         {
-            System.out.println("[SpongeBukkit Core] Patching net.minecraft.entity.Entity");
+            System.out.println("*********** [SpongeBukkit Core] Patching net.minecraft.entity.Entity ***********");
             ClassNode classNode = new ClassNode();
             ClassReader classReader = new ClassReader(bytes);
             classReader.accept(classNode, 0);
@@ -64,5 +68,12 @@ public class SpongeBukkitCoremod implements IFMLLoadingPlugin, IClassTransformer
         }
 
         return bytes;
+    }
+
+    @Override
+    public Void call() throws Exception
+    {
+        System.out.println("*********** call() *********** ");
+        return null;
     }
 }

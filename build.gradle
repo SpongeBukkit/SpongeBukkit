@@ -1,3 +1,4 @@
+// Gradle Build
 buildscript {
     repositories {
         mavenCentral()
@@ -15,11 +16,9 @@ buildscript {
     }
 }
 
+// Source configuration
 apply plugin: 'forge'
 
-version = "1.0"
-group= "br.com.gamemods.spongebukkit" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "SpongeBukkit"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -29,15 +28,18 @@ minecraft {
     assetDir = "eclipse/assets"
 }
 
-/*sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java', 'bukkit/src/main/java']
-            exclude 'com/**'
-        }
-    }
-}*/
+// External Variables
+ext.buildNumber = project.hasProperty("buildNumber") ? buildNumber : '0'
+ext.ciSystem = project.hasProperty("ciSystem") ? ciSystem : 'unknown'
+ext.commit = project.hasProperty("commit") ? commit : 'unknown'
 
+// Project properties
+version = "1.0-SNAPSHOT"
+group= "br.com.gamemods.spongebukkit" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "SpongeBukkit"
+ext.bukkitVersion = "1.7.10-R0.1-SNAPSHOT"
+
+// Dependencies
 repositories {
     mavenCentral()
     mavenLocal()
@@ -52,7 +54,7 @@ dependencies {
     compile 'org.avaje:ebean:2.7.3'
     compile 'com.google.guava:guava:10.0.1'
     compile 'commons-lang:commons-lang:2.3'
-    compile files('bukkit/target/original-bukkit-1.7.10-R0.1-SNAPSHOT.jar')
+    compile files("bukkit/target/original-bukkit-${bukkitVersion}.jar")
     compile 'org.spongepowered:sponge:1.7.10-10.13.1.1213-SNAPSHOT'
     //compile 'org.slf4j:slf4j-log4j12:1.6.4'
     //compile group: 'org.bukkit', name: 'bukkit', version: '1.7.10-R0.1-SNAPSHOT'
@@ -71,10 +73,17 @@ dependencies {
 
 }
 
+// Build process
 jar {
     manifest.mainAttributes(
-            "FMLAT": "SpongeBukkit_at.cfg",
-            "FMLCorePlugin": "br.com.gamemods.spongebukkit.mod.SpongeBukkitCoremod"
+            "Built-By": System.properties['user.name'],
+            "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+            "Implementation-Title": archivesBaseName,
+            "Implementation-Version": version + "+" + ciSystem + "-b" + buildNumber + ".git-" + commit,
+            "Specification-Version": bukkitVersion,
+            "Specification-Vendor": "Bukkit Team",
+            "FMLCorePlugin": "br.com.gamemods.spongebukkit.mod.SpongeBukkitCoremod",
+            "FMLCorePluginContainsFMLMod": "true"
     )
 }
 
