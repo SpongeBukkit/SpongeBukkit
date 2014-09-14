@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 public class BukkitServer implements Server
 {
     private final SpongeBukkitMod mod;
-    private final SimpleCommandMap commandMap;
+    private final BukkitCommandMap commandMap;
     private final SimplePluginManager pluginManager;
     private final SimpleServicesManager servicesManager = new SimpleServicesManager();
     private final BukkitHelpMap helpMap = new BukkitHelpMap(this);
@@ -484,6 +484,11 @@ public class BukkitServer implements Server
 
         getLogger().info("Stopping the server...");
         server.initiateShutdown();
+    }
+
+    public BukkitCommandMap getCommandMap()
+    {
+        return commandMap;
     }
 
     @Override
