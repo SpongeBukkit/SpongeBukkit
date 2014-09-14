@@ -5,6 +5,7 @@ import br.com.gamemods.spongebukkit.command.BukkitConsoleCommandSender;
 import br.com.gamemods.spongebukkit.entity.EntityMap;
 import br.com.gamemods.spongebukkit.mod.SpongeBukkitMod;
 import br.com.gamemods.spongebukkit.scheduler.SpongeBukkitScheduler;
+import br.com.gamemods.spongebukkit.world.WorldMap;
 import com.avaje.ebean.config.ServerConfig;
 import com.google.common.base.Preconditions;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -58,6 +59,9 @@ public class BukkitServer implements Server
     {
         if(started != 0)
             throw new IllegalStateException("Already started");
+
+        EntityMap.clear();
+        WorldMap.clear();
 
         consoleCommandSender = new BukkitConsoleCommandSender(this);
         started = System.currentTimeMillis();

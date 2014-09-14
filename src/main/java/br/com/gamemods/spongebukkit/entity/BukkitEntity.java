@@ -2,6 +2,7 @@ package br.com.gamemods.spongebukkit.entity;
 
 import br.com.gamemods.spongebukkit.server.BukkitServer;
 import br.com.gamemods.spongebukkit.world.WorldMap;
+import com.google.common.base.Preconditions;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -20,9 +21,15 @@ import java.util.UUID;
 
 public class BukkitEntity<E extends net.minecraft.entity.Entity> implements Entity
 {
-    protected BukkitServer server;
-    protected E entity;
+    protected final BukkitServer server;
+    protected final E entity;
     private EntityDamageEvent lastDamage;
+
+    public BukkitEntity(BukkitServer server, E entity)
+    {
+        this.server = Preconditions.checkNotNull(server);
+        this.entity = Preconditions.checkNotNull(entity);
+    }
 
     @Override
     public Location getLocation()

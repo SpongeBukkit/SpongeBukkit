@@ -1,5 +1,6 @@
 package br.com.gamemods.spongebukkit.entity;
 
+import br.com.gamemods.spongebukkit.server.BukkitServer;
 import net.minecraft.entity.player.EntityPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -8,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -17,10 +19,17 @@ import java.util.Set;
 
 public class BukkitHumanEntity<E extends EntityPlayer> extends BukkitLivingEntity<E> implements HumanEntity
 {
+    private PermissibleBase permissible = new PermissibleBase(this);
+
+    public BukkitHumanEntity(BukkitServer server, E entity)
+    {
+        super(server, entity);
+    }
+
     @Override
     public String getName()
     {
-        throw new UnsupportedOperationException();
+        return entity.getDisplayName();
     }
 
     @Override
@@ -140,78 +149,78 @@ public class BukkitHumanEntity<E extends EntityPlayer> extends BukkitLivingEntit
     @Override
     public boolean isPermissionSet(String s)
     {
-        throw new UnsupportedOperationException();
+        return permissible.isPermissionSet(s);
     }
 
     @Override
     public boolean isPermissionSet(Permission permission)
     {
-        throw new UnsupportedOperationException();
+        return permissible.isPermissionSet(permission);
     }
 
     @Override
     public boolean hasPermission(String s)
     {
-        throw new UnsupportedOperationException();
+        return permissible.hasPermission(s);
     }
 
     @Override
     public boolean hasPermission(Permission permission)
     {
-        throw new UnsupportedOperationException();
+        return permissible.hasPermission(permission);
     }
 
     @Override
     public PermissionAttachment addAttachment(Plugin plugin, String s, boolean b)
     {
-        throw new UnsupportedOperationException();
+        return permissible.addAttachment(plugin, s, b);
     }
 
     @Override
     public PermissionAttachment addAttachment(Plugin plugin)
     {
-        throw new UnsupportedOperationException();
+        return permissible.addAttachment(plugin);
     }
 
     @Override
     public PermissionAttachment addAttachment(Plugin plugin, String s, boolean b, int i)
     {
-        throw new UnsupportedOperationException();
+        return permissible.addAttachment(plugin, s, b, i);
     }
 
     @Override
     public PermissionAttachment addAttachment(Plugin plugin, int i)
     {
-        throw new UnsupportedOperationException();
+        return permissible.addAttachment(plugin, i);
     }
 
     @Override
     public void removeAttachment(PermissionAttachment permissionAttachment)
     {
-        throw new UnsupportedOperationException();
+        permissible.removeAttachment(permissionAttachment);
     }
 
     @Override
     public void recalculatePermissions()
     {
-        throw new UnsupportedOperationException();
+        permissible.recalculatePermissions();
     }
 
     @Override
     public Set<PermissionAttachmentInfo> getEffectivePermissions()
     {
-        throw new UnsupportedOperationException();
+        return permissible.getEffectivePermissions();
     }
 
     @Override
     public boolean isOp()
     {
-        throw new UnsupportedOperationException();
+        return server.getVanillaServer().getConfigurationManager().func_152596_g(entity.getGameProfile());
     }
 
     @Override
     public void setOp(boolean b)
     {
-        throw new UnsupportedOperationException();
+        server.getVanillaServer().getConfigurationManager().func_152605_a(entity.getGameProfile());
     }
 }

@@ -1,5 +1,6 @@
 package br.com.gamemods.spongebukkit.entity;
 
+import br.com.gamemods.spongebukkit.server.BukkitServer;
 import net.minecraft.entity.EntityLivingBase;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -15,6 +16,11 @@ import java.util.List;
 
 public class BukkitLivingEntity<E extends EntityLivingBase> extends BukkitEntity<E> implements LivingEntity
 {
+    public BukkitLivingEntity(BukkitServer server, E entity)
+    {
+        super(server, entity);
+    }
+
     @Override
     public double getEyeHeight()
     {

@@ -1,5 +1,8 @@
 package br.com.gamemods.spongebukkit.entity;
 
+import br.com.gamemods.spongebukkit.server.BukkitServer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import org.bukkit.*;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -13,8 +16,13 @@ import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.Set;
 
-public class BukkitPlayer extends BukkitHumanEntity implements Player
+public class BukkitPlayer<E extends EntityPlayer> extends BukkitHumanEntity<E> implements Player
 {
+    public BukkitPlayer(BukkitServer server, E entity)
+    {
+        super(server, entity);
+    }
+
     @Override
     public String getDisplayName()
     {
@@ -678,7 +686,7 @@ public class BukkitPlayer extends BukkitHumanEntity implements Player
     @Override
     public void sendMessage(String s)
     {
-        throw new UnsupportedOperationException();
+        entity.addChatMessage(new ChatComponentText(s));
     }
 
     @Override

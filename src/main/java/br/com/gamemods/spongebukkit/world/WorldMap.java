@@ -18,4 +18,9 @@ public class WorldMap
     {
         throw new UnsupportedOperationException();
     }
+
+    public static void clear()
+    {
+        worldMap.clear();
+    }
 }
