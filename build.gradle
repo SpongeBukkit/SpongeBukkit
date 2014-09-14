@@ -48,6 +48,10 @@ repositories {
     }
 }
 
+configurations {
+    releaseJars
+}
+
 dependencies {
     compile 'org.yaml:snakeyaml:1.9'
     compile 'com.googlecode.json-simple:json-simple:1.1'
@@ -56,6 +60,12 @@ dependencies {
     compile 'commons-lang:commons-lang:2.3'
     compile files("bukkit/target/original-bukkit-${bukkitVersion}.jar")
     compile 'org.spongepowered:sponge:1.7.10-10.13.1.1213-SNAPSHOT'
+
+    // Instruct players to place required jars inside bukkit-libs folder (it's inside minecraft dir)
+    //releaseJars 'commons-lang:commons-lang:2.3'
+    //releaseJars 'org.avaje:ebean:2.7.3'
+    //releaseJars files("bukkit/target/bukkit-${bukkitVersion}.jar")
+
     //compile 'org.slf4j:slf4j-log4j12:1.6.4'
     //compile group: 'org.bukkit', name: 'bukkit', version: '1.7.10-R0.1-SNAPSHOT'
     // you may put jars on which you depend on in ./libs
@@ -74,6 +84,7 @@ dependencies {
 }
 
 // Build process
+
 jar {
     manifest.mainAttributes(
             "Built-By": System.properties['user.name'],
@@ -83,8 +94,12 @@ jar {
             "Specification-Version": bukkitVersion,
             "Specification-Vendor": "Bukkit Team",
             "FMLCorePlugin": "br.com.gamemods.spongebukkit.mod.SpongeBukkitCoremod",
-            "FMLCorePluginContainsFMLMod": "true"
+            "FMLCorePluginContainsFMLMod": "true"//,
+            //"FMLAT": "SpongeBukkit_at.cfg"
     )
+
+    from configurations.releaseJars.collect { it.isDirectory() ? it : zipTree(it) }
+    //from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
 processResources

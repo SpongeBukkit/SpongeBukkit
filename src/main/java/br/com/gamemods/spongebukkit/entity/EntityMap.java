@@ -31,13 +31,13 @@ public class EntityMap
                 cacheField = net.minecraft.entity.Entity.class.getDeclaredField("_sb_bukkit_entity");
                 if(cacheField == null)
                     throw new ReflectiveOperationException("getDeclaredField returned null");
-                Bukkit.getLogger().info("*********** Entity cache was configured successfully ***********");
+                Bukkit.getLogger().info("*********** SpongeBukkit: Entity cache was configured successfully ***********");
             }
             catch (ReflectiveOperationException e)
             {
                 cacheFieldFailed = true;
                 cacheField = null;
-                Bukkit.getLogger().log(Level.WARNING, "*********** Failed to load entities from cache field (Core Mod Failed?) - Entity caching as been disabled ***********", e);
+                Bukkit.getLogger().log(Level.WARNING, "*********** SpongeBukkit: Failed to load entities from cache field (Core Mod Failed?) - Entity caching as been disabled ***********", e);
             }
         }
         return cacheField;

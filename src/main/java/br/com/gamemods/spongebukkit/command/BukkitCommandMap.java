@@ -36,7 +36,7 @@ public class BukkitCommandMap extends SimpleCommandMap
     {
         super(server);
         this.server = server;
-        manager = (ServerCommandManager) server.getVanillaServer().getCommandManager();
+        manager = (ServerCommandManager) server.getVanillaServer().commandManager;
 
         for(Object[] args: delayedRegisters)
         {
