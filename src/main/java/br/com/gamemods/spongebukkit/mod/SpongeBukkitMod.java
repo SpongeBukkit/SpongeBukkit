@@ -9,6 +9,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.event.ServerChatEvent;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 
@@ -27,6 +28,12 @@ public class SpongeBukkitMod extends DummyModContainer
         Bukkit.setServer(new VolatileServer());
         //MinecraftForge.EVENT_BUS.register(new SpongeForgeListener(this));
         //FMLCommonHandler.instance().bus().register(new SpongeForgeListener(this));
+    }
+
+    @Mod.EventHandler
+    public void on(ServerChatEvent event)
+    {
+        logger.info("ServerChatEvent: "+event.username+" "+event.username);
     }
 
     @Mod.EventHandler

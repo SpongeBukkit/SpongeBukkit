@@ -6,6 +6,8 @@ import net.minecraft.command.ICommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import java.util.List;
+
 public class BukkitPluginCommand extends CommandBase
 {
     private final BukkitCommandMap commandMap;
@@ -34,6 +36,34 @@ public class BukkitPluginCommand extends CommandBase
     public void processCommand(ICommandSender sender, String[] args)
     {
         CommandSender bukkitSender = commandMap.getCommandSender(sender);
+
+        if(!command.testPermission(bukkitSender))
+            return;
+
         command.execute(bukkitSender, label, args);
+    }
+
+    @Override
+    public boolean canCommandSenderUseCommand(ICommandSender sender)
+    {
+        return command.testPermissionSilent(commandMap.getCommandSender(sender));
+    }
+
+    @Override
+    public int getRequiredPermissionLevel()
+    {
+        return 0;
+    }
+
+    @Override
+    public List<String> getCommandAliases()
+    {
+        return command.getAliases();
+    }
+
+    @Override
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args)
+    {
+        return command.tabComplete(commandMap.getCommandSender(sender), label, args);
     }
 }
